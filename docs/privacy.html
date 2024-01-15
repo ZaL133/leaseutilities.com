@@ -52,40 +52,25 @@
     <div class="container my-5">
       <div class="row">
         <div class="col">
-            <form>
-
-                <h1>Mileage projector</h1>
-
-                <p>Maximize your leased vehicle's potential with our user-friendly mileage calculator. Our tool effortlessly estimates your average daily and projected annual mileage</p>
-
-                <div class="mb-3">
-                    <label for="miles" class="form-label">How many miles are currently on the Vehicle?</label>
-                    <input type="email" class="form-control" id="miles" aria-describedby="milesHelp">
-                    <div id="milesHelp" class="form-text">We'll never share your email with anyone else.</div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="startDate" class="form-label">What date did the lease start?</label>
-                    <input type="date" class="form-control" id="startDate" aria-describedby="startDateHelp" />
-                    <div id="startDateHelp" class="form-text">Date of inception</div>
-                </div>
-
-
-                <div class="row">
-                    <div class="mb-3 col-6">
-                        <label for="dailyAverageMiles" class="form-label">Daily average miles?</label>
-                        <input type="number" class="form-control" id="dailyAverageMiles" aria-describedby="dailyAverageMilesHelp" disabled>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <label for="projectedAnnualMiles" class="form-label">Projected annual miles?</label>
-                        <input type="number" class="form-control" id="projectedAnnualMiles" aria-describedby="projectedAnnualMilesHelp" disabled>
-                        <div id="projectedAnnualMilesHelp" class="form-text">This is based on the avg daily miles driven <b>*</b> days of year</div>
-                    </div>
-
-                </div>
-                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
-            </form> 
+          <h1>Privacy Policy</h1>
+          <p class="lead">Your privacy is important to us. This privacy policy explains the data we collect, how it's used, and your data privacy rights.</p>
+  
+          <h2>Use of Local Storage</h2>
+          <p>We use browser local storage to enhance your user experience. Local storage allows our website to remember information about your visit, so you don't have to re-enter it the next time you visit. This might include information like your lease start date.</p>
+          <p><strong>Please note:</strong> This data is stored only on your device and is not collected or stored by our servers.</p>
+  
+          <h2>Google Analytics</h2>
+          <p>Our website uses Google Analytics, a service which transmits website traffic data to Google servers. Google Analytics does not identify individual users or associate your IP address with any other data held by Google. We use reports provided by Google Analytics to help us understand website traffic and webpage usage.</p>
+  
+          <h2>Your Consent</h2>
+          <p>By using our site, you consent to our privacy policy.</p>
+  
+          <h2>Changes to Our Privacy Policy</h2>
+          <p>If we decide to change our privacy policy, we will post those changes on this page.</p>
+  
+          <h2>Contact Us</h2>
+          <p>If you have any questions regarding this privacy policy, you can contact us using the information below.</p>
+          <p><a href="https://github.com/ZaL133/leaseutilities.com/issues" target="_blank">https://github.com/ZaL133/leaseutilities.com/issues</a></p>
         </div>
       </div>
     </div>
@@ -112,36 +97,5 @@
 
     <!-- Site js -->
     <script src="/content/js/site.js"></script>
-
-    <script>
-        $(function() {
-
-          // init 
-          let miles = lutil.getItem(lutil.consts.MILEAGEKEY);
-          if (miles) $("#miles").val(miles);
-
-          let startDate = lutil.getItem(lutil.consts.STARTDATEKEY);
-          if (startDate) $("#startDate").val(moment(startDate).format("yyyy-MM-DD"));
-
-
-            $("#submit").click((e) => {
-                e.preventDefault();
-
-                var miles = $("#miles").val();
-                if (miles) lutil.setItem(lutil.consts.MILEAGEKEY, miles);
-                var startDate = moment($("#startDate").val());
-                if (startDate) lutil.setItem(lutil.consts.STARTDATEKEY, startDate);
-
-                var today = moment();
-                var days = today.diff(startDate, 'days');
-
-                var dailyAverageMiles = miles / days;
-                var projectedAnnualMiles = dailyAverageMiles * 365;
-
-                $("#dailyAverageMiles").val(dailyAverageMiles.toFixed(1));
-                $("#projectedAnnualMiles").val(parseInt(projectedAnnualMiles));
-            })
-        })
-    </script>
   </body>
 </html>

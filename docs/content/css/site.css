@@ -1,0 +1,7 @@
+div.form-control {
+    min-height: 36px; /* the height of an empty input */
+}
+
+.highlight {
+    color: #04c1e2;
+}

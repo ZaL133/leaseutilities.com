@@ -63,32 +63,56 @@
 
                 <p>Maximize your leased vehicle's potential with our user-friendly mileage calculator. Our tool effortlessly estimates your average daily and projected annual mileage</p>
 
+                <!-- Miles -->
                 <div class="mb-3">
                     <label for="miles" class="form-label">How many miles are currently on the Vehicle?</label>
                     <input type="email" class="form-control" id="miles" aria-describedby="milesHelp">
-                    <div id="milesHelp" class="form-text">We'll never share your email with anyone else.</div>
                 </div>
 
+                <!-- Lease Start Date -->
                 <div class="mb-3">
                     <label for="startDate" class="form-label">What date did the lease start?</label>
                     <input type="date" class="form-control" id="startDate" aria-describedby="startDateHelp" />
-                    <div id="startDateHelp" class="form-text">Date of inception</div>
                 </div>
-
 
                 <div class="row">
-                    <div class="mb-3 col-6">
-                        <label for="dailyAverageMiles" class="form-label">Daily average miles?</label>
-                        <input type="number" class="form-control" id="dailyAverageMiles" aria-describedby="dailyAverageMilesHelp" disabled>
-                    </div>
+                  <!-- Daily Average Miles -->
+                  <div class="mb-3 col-md-4 col-sm-12">
+                    <label for="dailyAverageMiles" class="form-label">Daily average miles?</label>
+                    <input type="number" class="form-control" id="dailyAverageMiles" aria-describedby="dailyAverageMilesHelp" disabled>
+                  </div>
 
-                    <div class="mb-3 col-6">
-                        <label for="projectedAnnualMiles" class="form-label">Projected annual miles?</label>
-                        <input type="number" class="form-control" id="projectedAnnualMiles" aria-describedby="projectedAnnualMilesHelp" disabled>
-                        <div id="projectedAnnualMilesHelp" class="form-text">This is based on the avg daily miles driven <b>*</b> days of year</div>
-                    </div>
-
+                  <!-- Projected Annual Miles-->
+                  <div class="mb-3 col-md-4">
+                    <label for="projectedAnnualMiles" class="form-label">Projected annual miles?</label>
+                    <input type="number" class="form-control" id="projectedAnnualMiles" aria-describedby="projectedAnnualMilesHelp" disabled>
+                    <div id="projectedAnnualMilesHelp" class="form-text">This is based on the avg daily miles driven <b>*</b> days of year</div>
+                  </div>
                 </div>
+
+                <div class="row">
+                  
+                  <!-- Annual Miles -->
+                  <div class="mb-3 col-md-4 col-sm-12">
+                    <label for="annualAllowedMiles" class="form-label">Annual allowed miles</label>
+                    <input type="number" class="form-control" id="annualAllowedMiles">
+                  </div>
+
+                  <!-- Over? -->
+                  <div class="mb-3 col-md-4">
+                    <label for="projectedOverage" class="form-label">Overage?</label>
+                    <input type="number" class="form-control" id="projectedOverage" aria-describedby="projectedOverageMilesHelp" disabled>
+                    <div id="projectedOverageHelp" class="form-text">(Annual allowed - Projected annual)</div>
+                  </div>
+
+                  <!-- Info -->
+                  <div class="mb-3 col-md-4">
+                    <label for="moreInfo" class="form-label">More Info</label>
+                    <div class="form-control" id="moreInfo" disabled></div>
+                  </div>
+                </div>
+
+                
                 <button type="submit" class="btn btn-primary" id="submit">Submit</button>
             </form> 
         </div>
@@ -121,30 +145,68 @@
     <script>
         $(function() {
 
-          // init 
+          // Miles 
           let miles = lutil.getItem(lutil.consts.MILEAGEKEY);
           if (miles) $("#miles").val(miles);
 
+          // Start Date
           let startDate = lutil.getItem(lutil.consts.STARTDATEKEY);
           if (startDate) $("#startDate").val(moment(startDate).format("yyyy-MM-DD"));
+
+          // Annual Allowed Miles
+          let annualMiles = lutil.getItem(lutil.consts.ANNUALMILESKEY);
+          if (annualMiles) $("#annualAllowedMiles").val(annualMiles);
 
 
             $("#submit").click((e) => {
                 e.preventDefault();
 
+                // Miles
                 var miles = $("#miles").val();
                 if (miles) lutil.setItem(lutil.consts.MILEAGEKEY, miles);
+
+                // Start Date 
                 var startDate = moment($("#startDate").val());
                 if (startDate) lutil.setItem(lutil.consts.STARTDATEKEY, startDate);
 
-                var today = moment();
-                var days = today.diff(startDate, 'days');
+                // Annual Allowed Miles
+                var annualAllowedMiles = $("#annualAllowedMiles").val();
+                if (annualAllowedMiles) lutil.setItem(lutil.consts.ANNUALMILESKEY, annualAllowedMiles);
 
+                var today = moment();
+                var days  = today.diff(startDate, 'days');
+
+                lutil.logMileage({ 
+                    logDate : today.format("yyyy-MM-DD"),
+                    miles   : miles
+                });
+
+                // Do all calculations here
                 var dailyAverageMiles = miles / days;
                 var projectedAnnualMiles = dailyAverageMiles * 365;
 
+                if (annualAllowedMiles) {
+
+                  // Calculate the avg you'll need to drive to hit your target 
+                  var dailyAverageAtTarget  = (annualAllowedMiles / 365).toFixed(2);
+                  var daysLeftInCurrentYear = 365 - days;
+                  var milesLeft             = annualAllowedMiles - miles;
+                  var averageToHitTarget    = milesLeft / daysLeftInCurrentYear;
+                  var moreInfoText = `There are <span class='highlight'>${daysLeftInCurrentYear}</span> left in the current year.
+At this rate, you will need to average <span class='highlight'>${averageToHitTarget.toFixed(1)}</span> miles per day to hit your allowed miles target.
+`;
+                  $("#moreInfo").html(moreInfoText);
+
+                  // Calculations 
+                  var projectedOverage = projectedAnnualMiles - annualAllowedMiles;
+                  
+                  if (projectedOverage > 0) {
+                    $("#projectedOverage").val(projectedOverage.toFixed(1));
+                  }
+                }
+
                 $("#dailyAverageMiles").val(dailyAverageMiles.toFixed(1));
-                $("#projectedAnnualMiles").val(parseInt(projectedAnnualMiles));
+                $("#projectedAnnualMiles").val(parseInt(projectedAnnualMiles.toFixed(1)));
             })
         })
     </script>

@@ -24,7 +24,7 @@
     <!-- Site css -->
     <link rel="stylesheet" href="/content/css/site.css" rel="stylesheet" />
 
-    <title>Lease Utilities | mileage projection</title>
+    <title>Lease Utilities | mileage history</title>
 
     <meta name="description" content="Maximize your leased vehicle's potential with our user-friendly mileage calculator. Our tool effortlessly estimates your average daily and projected annual mileage, ensuring you stay within your lease terms. Ideal for personal and business leased cars, our calculator takes the guesswork out of mileage tracking. Simply input your start date and current odometer reading, and let our accurate and efficient tool do the rest. Stay informed, avoid excess mileage fees, and optimize your lease with our comprehensive mileage calculator.">
 
@@ -57,65 +57,20 @@
     <div class="container my-5">
       <div class="row">
         <div class="col">
-            <form>
 
-                <h1>Mileage projector</h1>
+            <h1>Mileage history</h1>
 
-                <p>Maximize your leased vehicle's potential with our user-friendly mileage calculator. Our tool effortlessly estimates your average daily and projected annual mileage</p>
+            <table class="table">
+              <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Mileage</th>
+                </tr>
+              </thead>
+              <tbody>
 
-                <!-- Miles -->
-                <div class="mb-3">
-                    <label for="miles" class="form-label">How many miles are currently on the Vehicle?</label>
-                    <input type="email" class="form-control" id="miles" aria-describedby="milesHelp">
-                </div>
-
-                <!-- Lease Start Date -->
-                <div class="mb-3">
-                    <label for="startDate" class="form-label">What date did the lease start?</label>
-                    <input type="date" class="form-control" id="startDate" aria-describedby="startDateHelp" />
-                </div>
-
-                <div class="row">
-                  <!-- Daily Average Miles -->
-                  <div class="mb-3 col-md-4 col-sm-12">
-                    <label for="dailyAverageMiles" class="form-label">Daily average miles?</label>
-                    <input type="number" class="form-control" id="dailyAverageMiles" aria-describedby="dailyAverageMilesHelp" disabled>
-                  </div>
-
-                  <!-- Projected Annual Miles-->
-                  <div class="mb-3 col-md-4">
-                    <label for="projectedAnnualMiles" class="form-label">Projected annual miles?</label>
-                    <input type="number" class="form-control" id="projectedAnnualMiles" aria-describedby="projectedAnnualMilesHelp" disabled>
-                    <div id="projectedAnnualMilesHelp" class="form-text">This is based on the avg daily miles driven <b>*</b> days of year</div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  
-                  <!-- Annual Miles -->
-                  <div class="mb-3 col-md-4 col-sm-12">
-                    <label for="annualAllowedMiles" class="form-label">Annual allowed miles</label>
-                    <input type="number" class="form-control" id="annualAllowedMiles">
-                  </div>
-
-                  <!-- Over? -->
-                  <div class="mb-3 col-md-4">
-                    <label for="projectedOverage" class="form-label">Overage?</label>
-                    <input type="number" class="form-control" id="projectedOverage" aria-describedby="projectedOverageMilesHelp" disabled>
-                    <div id="projectedOverageHelp" class="form-text">(Annual allowed - Projected annual)</div>
-                  </div>
-
-                  <!-- Info -->
-                  <div class="mb-3 col-md-4">
-                    <label for="moreInfo" class="form-label">More Info</label>
-                    <div class="form-control" id="moreInfo" disabled></div>
-                  </div>
-                </div>
-
-                
-                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
-                <a href="mileage-history.html">History</a>
-            </form> 
+              </tbody>
+            </table>
         </div>
       </div>
     </div>
@@ -143,6 +98,6 @@
     <!-- Site js -->
     <script src="/content/js/site.js"></script>
 
-    <script src="/content/js/pages/index.js"></script>
+    <script src="/content/js/pages/mileage-history.js"></script>
   </body>
 </html>

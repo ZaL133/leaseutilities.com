@@ -21,6 +21,10 @@ lutil = (function() {
         return localStorage.getItem(key);
     }
 
+    function getMileageLog() {
+        return JSON.parse(getItem(consts.MILEAGEHISTORYKEY));
+    }
+
     /*
         Save each mileage log, only once per day - keep the last entry
         mileageLogInfo {
@@ -38,7 +42,7 @@ lutil = (function() {
         ) {
             let log = {};
             try {
-                let log     = JSON.parse(getItem(consts.MILEAGEHISTORYKEY));
+                log     = JSON.parse(getItem(consts.MILEAGEHISTORYKEY));
             } catch {}
 
             let logDate = mileageInfo["logDate"];
@@ -68,6 +72,7 @@ lutil = (function() {
 
     publicApi.consts = consts;
     publicApi.getItem       = getItem;
+    publicApi.getMileageLog = getMileageLog;
     publicApi.logMileage    = logMileage;
     publicApi.setItem       = setItem;
 

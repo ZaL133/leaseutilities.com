@@ -12,7 +12,7 @@ let consts = {
         LEASETERMS:                 "LEASETERMSKEY",
         MONEYFACTOR:                "MONEYFACTOR",
         RESIDUALVALUE:              "RESIDUALVALUEKEY"
-    };
+};
 
 lutil = (function() {
     let publicApi = {};

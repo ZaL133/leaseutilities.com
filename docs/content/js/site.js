@@ -50,7 +50,7 @@ lutil = (function() {
         ) {
             let log = {};
             try {
-                log     = JSON.parse(getItem(consts.MILEAGEHISTORYKEY));
+                log     = JSON.parse(getItem(consts.MILEAGEHISTORYKEY)) || {};
             } catch {}
 
             let logDate = mileageInfo["logDate"];

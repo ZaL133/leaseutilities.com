@@ -67,6 +67,7 @@ lutil = (function() {
     function mileageLogToSortedArray(log) {
         var rv = [];
         if (log) {
+          // The dates are stored in an object as properties, with the date being the key and the number of miles logged being the value
           var props       = Object.getOwnPropertyNames(log);
           for(var i = 0; i < props.length; i++) {
             var propName  = props[i];

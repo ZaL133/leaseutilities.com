@@ -109,7 +109,10 @@
         
         if (dataObject) {
 
-          lutil.setItem(consts.MILEAGEHISTORYKEY, dataObject);
+          for(var key in dataObject) {
+            lutil.setItem(key, dataObject[key]);
+          }
+          
           window.location = "mileage-history.html";
         }
       });

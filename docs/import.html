@@ -60,7 +60,6 @@
 
             <h1>Mileage history</h1>
 
-            <a href="javascript://" id="mileage-export">Export</a>
             <table class="table">
               <thead>
                 <tr>
@@ -103,12 +102,13 @@
     <script>
 
       $(function() {
-        var logQueryString  = window.location.search.slice(1);
-        var parts           = logQueryString.split("&").filter(x => x.startsWith("log"))[0];
-        var log             = parts.split("=")[1];
-        var logObject       = JSON.parse(atob(log));
+        var dataQueryString  = window.location.search.slice(1);
+        var parts            = dataQueryString.split("&").filter(x => x.startsWith("data"))[0];
+        var data             = parts.split("=")[1];
+        var dataObject       = JSON.parse(atob(log));
         
-        if (logObject) {
+        if (dataObject) {
+
           lutil.setItem(logObject, lutil.consts.MILEAGEHISTORYKEY);
           window.location = "mileage-history.html";
         }

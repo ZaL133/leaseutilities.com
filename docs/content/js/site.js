@@ -17,6 +17,14 @@ let consts = {
 lutil = (function() {
     let publicApi = {};
 
+    function getExportObject() {
+        var rv = {};
+        for(var key in consts) {
+            rv[key] = getItem(key);
+        }
+        return rv;
+    }
+
     function getItem(key) {
         return localStorage.getItem(key);
     }
@@ -56,6 +64,23 @@ lutil = (function() {
         }
     }
 
+    function mileageLogToSortedArray(log) {
+        var rv = [];
+        if (log) {
+          var props       = Object.getOwnPropertyNames(log);
+          for(var i = 0; i < props.length; i++) {
+            var propName  = props[i];
+            var miles     = log[propName];
+            rv.push({ logDate : propName, miles });
+          }
+  
+          return rv.sort((a, b) => {
+            if (a.logDate < b.logDate) return -1;
+            if (a.logDate > b.logDate) return 1;
+            return 0;
+          });
+        }
+      }
 
     function setItem(key, val) {
         localStorage.setItem(key, val);
@@ -71,10 +96,12 @@ lutil = (function() {
     }
 
     publicApi.consts = consts;
-    publicApi.getItem       = getItem;
-    publicApi.getMileageLog = getMileageLog;
-    publicApi.logMileage    = logMileage;
-    publicApi.setItem       = setItem;
+    publicApi.getExportObject           = getExportObject;
+    publicApi.getItem                   = getItem;
+    publicApi.getMileageLog             = getMileageLog;
+    publicApi.logMileage                = logMileage;
+    publicApi.mileageLogToSortedArray   = mileageLogToSortedArray;
+    publicApi.setItem                   = setItem;
 
     return publicApi;
 })();

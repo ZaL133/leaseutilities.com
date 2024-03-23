@@ -105,11 +105,11 @@
         var dataQueryString  = window.location.search.slice(1);
         var parts            = dataQueryString.split("&").filter(x => x.startsWith("data"))[0];
         var data             = parts.split("=")[1];
-        var dataObject       = JSON.parse(atob(log));
+        var dataObject       = JSON.parse(atob(data));
         
         if (dataObject) {
 
-          lutil.setItem(logObject, lutil.consts.MILEAGEHISTORYKEY);
+          lutil.setItem(dataObject, lutil.consts.MILEAGEHISTORYKEY);
           window.location = "mileage-history.html";
         }
       });
